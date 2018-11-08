@@ -109,7 +109,6 @@ public class WebsocketClientTest {
 			@Override
 			public void run() {
 				try {
-                    i++;
                     WebSocketHttpHeaders httpHeaders = new WebSocketHttpHeaders();
                     String accessToken = "user" + i;
                     httpHeaders.add("access_token",accessToken);
@@ -128,9 +127,11 @@ public class WebsocketClientTest {
                     connectList.add(session);
 
                     //订阅一个主题
-                    String destination = "/app/user/room/"+ accessToken +"/room" + random.nextInt(connectList.size());
+                    String destination = "/app/user/room/user"+ random.nextInt(connectList.size()) +"/room" + random.nextInt(connectList.size());
                     StompSession.Subscription subscription = session.subscribe(destination, new StompSessionHandlerAdapter(){});
                     subscriptionList.add(subscription);
+
+                    i++;
 				} catch (Exception e) {
 					//
 				}finally {
