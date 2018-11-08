@@ -1,4 +1,4 @@
-package com.github.netty.example.rpc;
+package com.github.netty.example.consumer;
 
 import com.github.netty.springboot.NettyRpcClient;
 import org.springframework.web.bind.annotation.RequestMapping;
