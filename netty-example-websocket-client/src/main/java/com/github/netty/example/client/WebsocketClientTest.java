@@ -39,15 +39,15 @@ public class WebsocketClientTest {
 		AtomicInteger errorCount = new AtomicInteger();
 		//链接的列表
 		List<StompSession> sessionList = new CopyOnWriteArrayList<>();
-        //订阅的列表
-        List<StompSession.Subscription> subscriptionList = new CopyOnWriteArrayList<>();
+		//订阅的列表
+		List<StompSession.Subscription> subscriptionList = new CopyOnWriteArrayList<>();
 
 		//连接并订阅
 		String url = "ws://localhost:10003/my-websocket";
 		Runnable connectRunnable = newConnectAndSubscribeRunnable(url,connectCount,successCount,errorCount,sessionList,subscriptionList);
 		scheduledService.scheduleAtFixedRate(connectRunnable,0,5,TimeUnit.SECONDS);//5 秒连接一次
 
-        //发送消息
+		//发送消息
 		Runnable sendMessageRunnable = newSendMessageRunnable(sessionList);
 		scheduledService.scheduleAtFixedRate(sendMessageRunnable,0,20,TimeUnit.SECONDS);//20 秒发送一轮消息
 
@@ -66,16 +66,16 @@ public class WebsocketClientTest {
 		return new Runnable() {
 			@Override
 			public void run() {
-			    int i=0;
+				int i=0;
 				for(StompSession session : sessionList) {
-                    i++;
+					i++;
 
-                    StompHeaders headers = new StompHeaders();
-                    headers.setDestination("/app/receiveMessage");
-                    headers.set("my-login-user","小"+ i );
+					StompHeaders headers = new StompHeaders();
+					headers.setDestination("/app/receiveMessage");
+					headers.set("my-login-user","小"+ i );
 
-                    Map<String,Object> payload = new HashMap<>(2);
-                    payload.put("msg","你好");
+					Map<String,Object> payload = new HashMap<>(2);
+					payload.put("msg","你好");
 
 					session.send(headers,payload);
 				}
@@ -102,17 +102,17 @@ public class WebsocketClientTest {
 	 * @return
 	 */
 	private static Runnable newConnectAndSubscribeRunnable(String url, AtomicInteger connectCount, AtomicInteger successCount, AtomicInteger errorCount,
-                                                           List<StompSession> connectList, List<StompSession.Subscription> subscriptionList){
+														   List<StompSession> connectList, List<StompSession.Subscription> subscriptionList){
 		return new Runnable() {
-		    int i = 0;
-		    Random random = new Random();
+			int i = 0;
+			Random random = new Random();
 			@Override
 			public void run() {
 				try {
-                    WebSocketHttpHeaders httpHeaders = new WebSocketHttpHeaders();
-                    String accessToken = "user" + i;
-                    httpHeaders.add("access_token",accessToken);
-				    //连接至url
+					WebSocketHttpHeaders httpHeaders = new WebSocketHttpHeaders();
+					String accessToken = "user" + i;
+					httpHeaders.add("access_token",accessToken);
+					//连接至url
 					StompSession session = client.connect(url, httpHeaders,new StompSessionHandlerAdapter(){
 						@Override
 						public void afterConnected(StompSession session, StompHeaders headers) {
@@ -124,14 +124,14 @@ public class WebsocketClientTest {
 							errorCount.incrementAndGet();
 						}
 					}).get();
-                    connectList.add(session);
+					connectList.add(session);
 
-                    //订阅一个主题
-                    String destination = "/app/user/room/user"+ random.nextInt(connectList.size()) +"/room" + random.nextInt(connectList.size());
-                    StompSession.Subscription subscription = session.subscribe(destination, new StompSessionHandlerAdapter(){});
-                    subscriptionList.add(subscription);
+					//订阅一个主题
+					String destination = "/app/user/room/user"+ random.nextInt(connectList.size()) +"/room" + random.nextInt(connectList.size());
+					StompSession.Subscription subscription = session.subscribe(destination, new StompSessionHandlerAdapter(){});
+					subscriptionList.add(subscription);
 
-                    i++;
+					i++;
 				} catch (Exception e) {
 					//
 				}finally {

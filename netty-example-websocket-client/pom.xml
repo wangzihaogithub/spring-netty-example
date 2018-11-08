@@ -5,7 +5,7 @@
 
 	<groupId>com.github.wangzihaogithub</groupId>
 	<artifactId>netty-example-websocket-client</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>netty-example-websocket-client</name>
@@ -22,14 +22,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<spring-websocket.version>1.5.10.RELEASE</spring-websocket.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
-			<version>${spring-websocket.version}</version>
 		</dependency>
 	</dependencies>
 
