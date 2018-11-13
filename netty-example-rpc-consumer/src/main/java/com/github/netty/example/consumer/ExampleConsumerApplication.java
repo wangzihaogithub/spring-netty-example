@@ -1,6 +1,7 @@
 package com.github.netty.example.consumer;
 
 import com.github.netty.springboot.EnableNettyRpcClients;
+import com.github.netty.springboot.EnableNettyServletEmbedded;
 import com.github.netty.springboot.NettyRpcLoadBalanced;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -38,6 +39,10 @@ public class ExampleConsumerApplication {
 		SpringApplication.run(ExampleConsumerApplication.class, args);
 	}
 
+    /**
+     * 寻找地址, 需要用户自行根据需求实现
+     * @return RPC负载均衡器
+     */
 	@Bean
     public NettyRpcLoadBalanced nettyRpcLoadBalanced(){
         return new NettyRpcLoadBalanced() {

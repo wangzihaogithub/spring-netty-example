@@ -1,6 +1,7 @@
 package com.github.netty.example.server;
 
 import com.github.netty.websocket.NettyRequestUpgradeStrategy;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
@@ -68,6 +69,7 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
      * @return
      */
     @Bean
+    @ConditionalOnMissingBean(SimpUserRegistry.class)
     public SimpUserRegistry userRegistry(){
         return new DefaultSimpUserRegistry();
     }
