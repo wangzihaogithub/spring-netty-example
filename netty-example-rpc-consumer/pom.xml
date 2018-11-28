@@ -11,14 +11,6 @@
 	<name>netty-example-rpc-consumer</name>
     <description>Demo project for Netty</description>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<!--<version>1.5.17.RELEASE</version>-->
-		<version>2.1.0.RELEASE</version>
-		<relativePath/>
-	</parent>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -26,6 +18,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.github.wangzihaogithub</groupId>
+			<artifactId>netty-example-rpc-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>com.github.wangzihaogithub</groupId>
 			<artifactId>netty-servlet</artifactId>

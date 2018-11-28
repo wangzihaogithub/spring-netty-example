@@ -18,6 +18,13 @@
 	</properties>
 
 	<dependencies>
+		<!--API 依赖-->
+		<dependency>
+			<groupId>com.github.wangzihaogithub</groupId>
+			<artifactId>netty-example-rpc-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
         <!--如果不想依赖spring-->
         <!--<dependency>-->
             <!--<groupId>com.github.wangzihaogithub</groupId>-->
