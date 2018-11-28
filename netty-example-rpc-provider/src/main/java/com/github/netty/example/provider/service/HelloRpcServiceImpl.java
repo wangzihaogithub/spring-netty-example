@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * @author 84215
  */
-@RpcService
+@RpcService//启用服务端的RPC
 @Service
 public class HelloRpcServiceImpl implements HelloRpcApi {
 
