@@ -2,7 +2,6 @@ package com.github.netty.example.consumer;
 
 import com.github.netty.springboot.EnableNettyRpcClients;
 import com.github.netty.springboot.EnableNettyServletEmbedded;
-import com.github.netty.springboot.NettyProperties;
 import com.github.netty.springboot.client.NettyRpcLoadBalanced;
 import com.github.netty.springboot.client.NettyRpcRequest;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +15,7 @@ import java.net.InetSocketAddress;
  * Netty-rpc 适用于数据量小(例: 2M左右), 并发高的场景
  * @author 84215  (示例)
  */
-@EnableNettyServletEmbedded//切换容器的注解, 可选不切换, 继续用tomcat
+//@EnableNettyServletEmbedded//切换容器的注解, 可选不切换, 继续用tomcat
 @EnableNettyRpcClients//这里开启自动注入RPC服务功能
 @SpringBootApplication
 public class ExampleConsumerApplication {
@@ -29,8 +28,6 @@ public class ExampleConsumerApplication {
     public NettyRpcLoadBalanced nettyRpcLoadBalanced(){
         return new NettyRpcLoadBalanced() {
             public InetSocketAddress chooseAddress(NettyRpcRequest request) {
-                NettyProperties properties = request.getNettyProperties();
-
                 return new InetSocketAddress("localhost",10001);
             }
         };
