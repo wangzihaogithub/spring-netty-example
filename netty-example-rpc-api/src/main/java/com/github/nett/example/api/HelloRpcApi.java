@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @author 84215
  */
-@RequestMapping("/my/service")//这里的值要与 生产者(服务端)对应
+@RequestMapping("/rpc/helloService")//这里的值要与 生产者(服务端)对应
 public interface HelloRpcApi {
 
     /**

@@ -11,14 +11,14 @@ import java.util.Map;
  * @author 84215
  */
 @RpcService
-@RequestMapping("/my/controller")
+@RequestMapping("/rpc/helloController")
 @RestController
 public class HelloRpcController{
 
     @RequestMapping("/sayHello")
     public Map sayHello(String name, Integer id, String pwd) {
         Map map = new HashMap(1);
-        map.put("msg","controller (name=" + name+ ",id="+id+",pwd="+pwd+") "+System.currentTimeMillis());
+        map.put("msg","hello rpc controller (" + name+ ","+id+","+pwd+") "+System.currentTimeMillis());
         return map;
     }
 

@@ -17,7 +17,7 @@ public class HelloRpcServiceImpl implements HelloRpcApi {
     @Override
     public Map sayHello(String name, Integer id, String pwd) {
         Map map = new HashMap(1);
-        map.put("msg","service (name=" + name+ ",id="+id+",pwd="+pwd+") "+System.currentTimeMillis());
+        map.put("msg","hello rpc service (" + name+ ","+id+","+pwd+") "+System.currentTimeMillis());
         return map;
     }
 }
