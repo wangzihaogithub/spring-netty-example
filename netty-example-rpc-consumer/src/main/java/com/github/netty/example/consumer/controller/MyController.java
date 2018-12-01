@@ -30,7 +30,7 @@ public class MyController {
         String pwd = (String) query.get("pwd");
 
         Map map = new HashMap();
-        map.put("1",helloRpcService.sayHello(name,1,pwd));
+        map.put("1",helloRpcService.sayHello(query,name,1,pwd));
         map.put("2",helloRpcController.sayHello(name,1,pwd));
         return map;
     }
