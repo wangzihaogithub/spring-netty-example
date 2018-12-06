@@ -16,10 +16,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 一次qps统计 (一次运行)  注: servlet服务端口=10002,rpc-consumer服务端口=10000,rpc-provider服务端口=10001
  *
  * 用于测试qps性能, 直接右键运行即可
+ * Http协议
  * @author acer01
  *  2018/8/12/012
  */
-public class QpsOnceTest {
+public class QpsOnceHttpTest {
 
     private static final int PORT = 10002;
     private static final String HOST = "localhost";
@@ -41,7 +42,7 @@ public class QpsOnceTest {
             .setKeepAlive(true));
 
     public static void main(String[] args) throws InterruptedException {
-        QpsOnceTest test = new QpsOnceTest();
+        QpsOnceHttpTest test = new QpsOnceHttpTest();
         test.doQuery(PORT,HOST, URI);
 
         int successCount = test.successCount.get();
@@ -81,6 +82,6 @@ public class QpsOnceTest {
     }
 
 
-    static final Logger logger = LoggerFactory.getLogger(QpsOnceTest.class);
+    static final Logger logger = LoggerFactory.getLogger(QpsOnceHttpTest.class);
 
 }

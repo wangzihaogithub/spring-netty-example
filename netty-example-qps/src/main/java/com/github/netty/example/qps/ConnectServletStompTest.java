@@ -1,4 +1,4 @@
-package com.github.netty.example.client;
+package com.github.netty.example.qps;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +22,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 客户端测试 ( Websocket服务端口 : 10003)
- *
+ * 从Http协议协商至STOMP协议
  * @author 84215
  */
-public class WebsocketClientTest {
+public class ConnectServletStompTest {
 
-	private static Logger logger = LoggerFactory.getLogger(WebsocketClientTest.class);
+	private static Logger logger = LoggerFactory.getLogger(ConnectServletStompTest.class);
 
 	public static void main(String[] args){
 		ScheduledExecutorService scheduledService = Executors.newScheduledThreadPool(3);
@@ -45,11 +45,11 @@ public class WebsocketClientTest {
 		//连接并订阅
 		String url = "ws://localhost:10003/my-websocket";
 		Runnable connectRunnable = newConnectAndSubscribeRunnable(url,connectCount,successCount,errorCount,sessionList,subscriptionList);
-		scheduledService.scheduleAtFixedRate(connectRunnable,0,5,TimeUnit.SECONDS);//5 秒连接一次
+		scheduledService.scheduleAtFixedRate(connectRunnable,0,1,TimeUnit.SECONDS);//1秒间隔 一次新连接
 
 		//发送消息
 		Runnable sendMessageRunnable = newSendMessageRunnable(sessionList);
-		scheduledService.scheduleAtFixedRate(sendMessageRunnable,0,20,TimeUnit.SECONDS);//20 秒发送一轮消息
+		scheduledService.scheduleAtFixedRate(sendMessageRunnable,0,1,TimeUnit.SECONDS);//1秒间隔 所有会话发送消息
 
 		scheduledService.scheduleAtFixedRate(()->{
 			//每次5 秒打印一次详情

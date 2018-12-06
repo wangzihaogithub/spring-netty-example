@@ -17,12 +17,13 @@ import java.util.concurrent.atomic.AtomicLong;
  * running 测试 (一直运行)  注: servlet服务端口=10002,rpc-consumer服务端口=10000,rpc-provider服务端口=10001
  *
  * 用于测试qps性能, 直接右键运行即可
+ * Http协议
  * @author acer01
  * 2018/8/12/012
  */
-public class QpsRunningTest {
+public class QpsRunningHttpTest {
 
-    private static final int PORT = 10002;
+    private static final int PORT = 10004;
     private static final String HOST = "localhost";
     private static final String URI = "/hello?id=1&name=abc";
     private static final JsonObject BODY = new JsonObject("{\"body1\":\"QpsRunningTest-我是post内容\"}");
@@ -44,7 +45,7 @@ public class QpsRunningTest {
             .setKeepAlive(true));
 
     public static void main(String[] args) {
-        QpsRunningTest test = new QpsRunningTest();
+        QpsRunningHttpTest test = new QpsRunningHttpTest();
         new PrintThread(test).start();
 
         try {
@@ -76,12 +77,12 @@ public class QpsRunningTest {
     }
 
     static class PrintThread extends Thread{
-        private final QpsRunningTest test;
+        private final QpsRunningHttpTest test;
         private AtomicInteger printCount = new AtomicInteger();
         private long beginTime = System.currentTimeMillis();
         static final Logger logger = LoggerFactory.getLogger(PrintThread.class);
 
-        PrintThread(QpsRunningTest test) {
+        PrintThread(QpsRunningHttpTest test) {
             super("QpsPrintThread");
             this.test = test;
         }
@@ -120,6 +121,6 @@ public class QpsRunningTest {
     }
 
 
-    static final Logger logger = LoggerFactory.getLogger(QpsRunningTest.class);
+    static final Logger logger = LoggerFactory.getLogger(QpsRunningHttpTest.class);
 
 }

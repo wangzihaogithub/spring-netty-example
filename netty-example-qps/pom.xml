@@ -17,12 +17,33 @@
 		<java.version>1.8</java.version>
 	</properties>
 
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<!--<version>1.5.17.RELEASE</version>-->
+		<version>2.1.0.RELEASE</version>
+		<relativePath/>
+	</parent>
+
 	<dependencies>
-		<!-- 测试qps用的,用作客户端-->
+		<!-- 测试http用的,用作客户端-->
 		<dependency>
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-web-client</artifactId>
-			<version>3.4.2</version>
+			<version>3.5.0.Beta1</version>
+		</dependency>
+
+		<!-- 测试mqtt用的,用作客户端-->
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-mqtt</artifactId>
+			<version>3.5.0.Beta1</version>
+		</dependency>
+
+		<!-- 测试websocket用的,用作客户端-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 	</dependencies>
 
