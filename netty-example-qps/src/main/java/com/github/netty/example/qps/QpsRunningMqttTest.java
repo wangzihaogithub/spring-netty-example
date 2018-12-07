@@ -1,5 +1,6 @@
 package com.github.netty.example.qps;
 
+import io.netty.handler.codec.mqtt.MqttQoS;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
@@ -10,6 +11,8 @@ import io.vertx.mqtt.MqttClientOptions;
 
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -49,6 +52,7 @@ public class QpsRunningMqttTest {
                     .setPort(PORT)
                     .setWillTopic("willTopic")
                     .setWillMessage("hello")
+                    .setWillFlag(true)
                     .setUsername("admin")
                     .setPassword("123456")
                     .setMaxMessageSize(8192));
@@ -61,8 +65,14 @@ public class QpsRunningMqttTest {
             });
 
             client.connect(s -> {
+                Map<String,Integer> topics = new HashMap<>(2);
+                topics.put(TOPIC, MqttQoS.AT_MOST_ONCE.value());
                 // subscribe to all subtopics
-                client.subscribe(TOPIC, 0);
+                client.subscribe(topics, resp -> {
+                    int result = resp.result();
+                    System.out.println(resp);
+
+                });
             });
         }
     };
