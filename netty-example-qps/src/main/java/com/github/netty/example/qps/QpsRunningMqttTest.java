@@ -4,6 +4,7 @@ import io.netty.handler.codec.mqtt.MqttQoS;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.mqtt.MqttClient;
@@ -63,15 +64,20 @@ public class QpsRunningMqttTest {
                         String.format("Receive message with content: \"%s\" from topic \"%s\"",
                                 message, response.topicName()));
             });
-
             client.connect(s -> {
                 Map<String,Integer> topics = new HashMap<>(2);
-                topics.put(TOPIC, MqttQoS.AT_MOST_ONCE.value());
+                topics.put(TOPIC, MqttQoS.AT_LEAST_ONCE.value());
                 // subscribe to all subtopics
                 client.subscribe(topics, resp -> {
                     int result = resp.result();
-                    System.out.println(resp);
+                    System.out.println("subscribe"+resp);
+                });
 
+                client.publish("/hello", Buffer.buffer("你好"),MqttQoS.EXACTLY_ONCE,true,true,asyncResult -> {
+                    if(asyncResult.succeeded()){
+//                        System.out.println("publish"+asyncResult);
+                    }
+                    System.out.println("publish"+asyncResult);
                 });
             });
         }
@@ -103,7 +109,7 @@ public class QpsRunningMqttTest {
                     sleep(reportPrintTime * 1000);
 //                    synchronized (test) {
                     long totalTime = System.currentTimeMillis() - beginTime - test.totalSleepTime.get();
-                    printQps(test.successCount.get(), test.errorCount.get(), totalTime);
+//                    printQps(test.successCount.get(), test.errorCount.get(), totalTime);
 //                    }
                 }catch (Throwable t){
                     t.printStackTrace();
