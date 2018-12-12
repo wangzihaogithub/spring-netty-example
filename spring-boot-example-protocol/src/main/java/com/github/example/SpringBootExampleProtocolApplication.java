@@ -1,8 +1,8 @@
 package com.github.example;
 
 import com.github.netty.core.ProtocolsRegister;
-import com.github.netty.register.MqttProtocolsRegister;
-import com.github.netty.register.RtspProtocolsRegister;
+import com.github.netty.protocol.MqttProtocolsRegister;
+import com.github.netty.protocol.RtspProtocolsRegister;
 import com.github.netty.springboot.EnableNettyServletEmbedded;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
