@@ -14,6 +14,9 @@ import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -61,9 +64,10 @@ public class QpsRunningMqttTest {
             client.publishHandler(response -> {
                 String message = new String(response.payload().getBytes(), Charset.forName("UTF-8"));
                 System.out.println(
-                        String.format("Receive message with content: \"%s\" from topic \"%s\"",
+                        String.format("接收到消息: \"%s\" from topic \"%s\"",
                                 message, response.topicName()));
             });
+
             client.connect(s -> {
                 Map<String,Integer> topics = new HashMap<>(2);
                 topics.put(TOPIC, MqttQoS.AT_LEAST_ONCE.value());
@@ -73,12 +77,15 @@ public class QpsRunningMqttTest {
                     System.out.println("subscribe"+resp);
                 });
 
-                client.publish("/hello", Buffer.buffer("你好"),MqttQoS.EXACTLY_ONCE,true,true,asyncResult -> {
-                    if(asyncResult.succeeded()){
-//                        System.out.println("publish"+asyncResult);
+                ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(1);
+                AtomicInteger count = new AtomicInteger();
+                scheduled.scheduleAtFixedRate(() ->
+                    client.publish("/hello",Buffer.buffer("发布数据" + count.incrementAndGet()) ,MqttQoS.EXACTLY_ONCE,true,true, asyncResult -> {
+                        if(asyncResult.succeeded()){
+    //                        System.out.println("publish"+asyncResult);
+                        }
                     }
-                    System.out.println("publish"+asyncResult);
-                });
+                ),0,15, TimeUnit.MILLISECONDS);
             });
         }
     };
