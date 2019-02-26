@@ -25,10 +25,10 @@ import java.util.Map;
 @RestController
 @EnableNettyServletEmbedded//切换容器的注解
 @SpringBootApplication
-public class ExampleServletApplication {
+public class ServletApplication10002 {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExampleServletApplication.class, args);
+		SpringApplication.run(ServletApplication10002.class, args);
 	}
 
 	@RequestMapping("/hello")

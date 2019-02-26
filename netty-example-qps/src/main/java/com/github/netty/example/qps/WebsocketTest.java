@@ -45,7 +45,7 @@ public class WebsocketTest {
 		//连接并订阅
 		String url = "ws://localhost:10003/my-websocket?access_token=b90b0e77-63cf-4b05-8d8b-43ebefc71a6a";
 		Runnable connectRunnable = newConnectAndSubscribeRunnable(url,connectCount,successCount,errorCount,sessionList,subscriptionList);
-		scheduledService.scheduleAtFixedRate(connectRunnable,0,1000,TimeUnit.SECONDS);//1秒间隔 一次新连接
+		scheduledService.scheduleAtFixedRate(connectRunnable,0,1000,TimeUnit.MILLISECONDS);//1秒间隔 一次新连接
 
 		//发送消息
 		Runnable sendMessageRunnable = newSendMessageRunnable(sessionList);
@@ -54,7 +54,7 @@ public class WebsocketTest {
 		scheduledService.scheduleAtFixedRate(()->{
 			//每次5 秒打印一次详情
 			logger.info("  连接数：" + connectCount+ "  成功数：" + successCount+ "  失败数：" + errorCount);
-		},5,5,TimeUnit.MILLISECONDS);
+		},5,5,TimeUnit.SECONDS);
 	}
 
 	/**

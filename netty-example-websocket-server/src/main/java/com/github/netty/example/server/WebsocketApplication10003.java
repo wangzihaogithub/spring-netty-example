@@ -11,9 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @EnableNettyServletEmbedded//这里需要切换为netty容器
 @SpringBootApplication
-public class ExampleWebsocketServerApplication {
+public class WebsocketApplication10003 {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExampleWebsocketServerApplication.class, args);
+		SpringApplication.run(WebsocketApplication10003.class, args);
 	}
 }

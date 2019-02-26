@@ -11,10 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @EnableNettyServletEmbedded//这里需要切换为netty容器
 @SpringBootApplication
-public class ExampleProviderSpringApplication {
+public class RpcProviderApplication10001 {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExampleProviderSpringApplication.class, args);
+		SpringApplication.run(RpcProviderApplication10001.class, args);
 	}
 
 }

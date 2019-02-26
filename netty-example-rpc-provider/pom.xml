@@ -25,18 +25,10 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-        <!--如果不想依赖spring-->
-        <!--<dependency>-->
-            <!--<groupId>com.github.wangzihaogithub</groupId>-->
-            <!--<artifactId>netty-rpc</artifactId>-->
-            <!--&lt;!&ndash;<version>1.2.0</version>&ndash;&gt;-->
-            <!--<version>2.0.0</version>-->
-        <!--</dependency>-->
-
         <!--如果想集成spring-->
 		<dependency>
 			<groupId>com.github.wangzihaogithub</groupId>
-			<artifactId>netty-servlet</artifactId>
+			<artifactId>spring-boot-protocol</artifactId>
 			<!--<version>1.2.0</version>-->
 			<version>2.0.0</version>
 		</dependency>

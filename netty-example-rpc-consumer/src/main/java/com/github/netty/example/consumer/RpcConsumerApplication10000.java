@@ -1,7 +1,6 @@
 package com.github.netty.example.consumer;
 
 import com.github.netty.springboot.EnableNettyRpcClients;
-import com.github.netty.springboot.EnableNettyServletEmbedded;
 import com.github.netty.springboot.client.NettyRpcLoadBalanced;
 import com.github.netty.springboot.client.NettyRpcRequest;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +17,7 @@ import java.net.InetSocketAddress;
 //@EnableNettyServletEmbedded//切换容器的注解, 可选不切换, 继续用tomcat
 @EnableNettyRpcClients//这里开启自动注入RPC服务功能
 @SpringBootApplication
-public class ExampleConsumerApplication {
+public class RpcConsumerApplication10000 {
 
     /**
      * 寻找地址, 需要用户自行根据需求实现
@@ -34,7 +33,7 @@ public class ExampleConsumerApplication {
     }
 
     public static void main(String[] args) {
-		SpringApplication.run(ExampleConsumerApplication.class, args);
+		SpringApplication.run(RpcConsumerApplication10000.class, args);
 	}
 
 }

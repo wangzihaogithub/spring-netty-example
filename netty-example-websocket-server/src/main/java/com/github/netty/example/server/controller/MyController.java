@@ -1,4 +1,4 @@
-package com.github.netty.example.server;
+package com.github.netty.example.server.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ import java.security.Principal;
  * @author wangzihao
  */
 @RestController
-public class MyRoomController {
+public class MyController {
     private Logger logger = LoggerFactory.getLogger(getClass());
     //所有在线的用户
     @Autowired
@@ -30,7 +30,7 @@ public class MyRoomController {
     /**
      * 订阅房间
      * @param message 消息
-     * @param principal 订阅人的用户身份
+     * @param principal 订阅人的用户身份（当前登录人的信息）
      * @param username 被订阅人的账号
      * @param roomName 被订阅的房间名
      */
@@ -41,8 +41,8 @@ public class MyRoomController {
 
     /**
      * 接收消息
-     * @param message
-     * @param principal
+     * @param message 客户端的数据
+     * @param principal 当前登录人的信息
      */
     @MessageMapping("/receiveMessage")
     public void receiveMessage(Message message, Principal principal) {

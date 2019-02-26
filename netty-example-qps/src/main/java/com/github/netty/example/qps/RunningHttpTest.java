@@ -2,10 +2,10 @@ package com.github.netty.example.qps;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.concurrent.CountDownLatch;
@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class RunningHttpTest {
 
-    private static final int PORT = 10004;
+    private static final int PORT = 10002;
     private static final String HOST = "localhost";
     private static final String URI = "/hello?id=1&name=abc";
     private static final JsonObject BODY = new JsonObject("{\"body1\":\"QpsRunningTest-我是post内容\"}");
@@ -120,7 +120,5 @@ public class RunningHttpTest {
         }
     }
 
-
-    static final Logger logger = LoggerFactory.getLogger(RunningHttpTest.class);
 
 }

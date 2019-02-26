@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
  */
 @EnableNettyServletEmbedded//这里需要切换为netty容器
 @SpringBootApplication
-public class SpringBootExampleProtocolApplication {
+public class ProtocolApplication10004 {
 
     /**
      * 添加mqtt协议
@@ -36,6 +36,6 @@ public class SpringBootExampleProtocolApplication {
     }
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootExampleProtocolApplication.class, args);
+		SpringApplication.run(ProtocolApplication10004.class, args);
 	}
 }
