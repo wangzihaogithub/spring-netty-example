@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author acer01
  *  2018/8/12/012
  */
-public class QpsOnceHttpTest {
+public class OnceHttpTest {
 
     private static final int PORT = 10002;
     private static final String HOST = "localhost";
@@ -42,7 +42,7 @@ public class QpsOnceHttpTest {
             .setKeepAlive(true));
 
     public static void main(String[] args) throws InterruptedException {
-        QpsOnceHttpTest test = new QpsOnceHttpTest();
+        OnceHttpTest test = new OnceHttpTest();
         test.doQuery(PORT,HOST, URI);
 
         int successCount = test.successCount.get();
@@ -82,6 +82,6 @@ public class QpsOnceHttpTest {
     }
 
 
-    static final Logger logger = LoggerFactory.getLogger(QpsOnceHttpTest.class);
+    static final Logger logger = LoggerFactory.getLogger(OnceHttpTest.class);
 
 }

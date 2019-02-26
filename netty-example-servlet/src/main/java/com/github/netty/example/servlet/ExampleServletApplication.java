@@ -20,7 +20,7 @@ import java.util.Map;
  * web服务器. 端口号:10002 （将tomcat换成了netty, 可以从request,response的实现看出来）
  *
  * Netty-servlet 适用于数据量小(例: 2M左右), 并发高的场景
- * @author 84215  (示例)
+ * @author wangzihao  (示例)
  */
 @RestController
 @EnableNettyServletEmbedded//切换容器的注解

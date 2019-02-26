@@ -13,7 +13,7 @@ import java.net.InetSocketAddress;
 /**
  * RPC消费者 端口号:10000, 远程端口号: 10001
  * Netty-rpc 适用于数据量小(例: 2M左右), 并发高的场景
- * @author 84215  (示例)
+ * @author wangzihao  (示例)
  */
 //@EnableNettyServletEmbedded//切换容器的注解, 可选不切换, 继续用tomcat
 @EnableNettyRpcClients//这里开启自动注入RPC服务功能

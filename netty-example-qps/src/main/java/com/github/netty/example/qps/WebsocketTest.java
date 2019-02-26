@@ -23,11 +23,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 客户端测试 ( Websocket服务端口 : 10003)
  * 从Http协议协商至STOMP协议
- * @author 84215
+ * @author wangzihao
  */
-public class ConnectServletStompTest {
+public class WebsocketTest {
 
-	private static Logger logger = LoggerFactory.getLogger(ConnectServletStompTest.class);
+	private static Logger logger = LoggerFactory.getLogger(WebsocketTest.class);
 
 	public static void main(String[] args){
 		ScheduledExecutorService scheduledService = Executors.newScheduledThreadPool(3);
@@ -43,18 +43,18 @@ public class ConnectServletStompTest {
 		List<StompSession.Subscription> subscriptionList = new CopyOnWriteArrayList<>();
 
 		//连接并订阅
-		String url = "ws://localhost:10003/my-websocket";
+		String url = "ws://localhost:10003/my-websocket?access_token=b90b0e77-63cf-4b05-8d8b-43ebefc71a6a";
 		Runnable connectRunnable = newConnectAndSubscribeRunnable(url,connectCount,successCount,errorCount,sessionList,subscriptionList);
-		scheduledService.scheduleAtFixedRate(connectRunnable,0,1,TimeUnit.SECONDS);//1秒间隔 一次新连接
+		scheduledService.scheduleAtFixedRate(connectRunnable,0,1000,TimeUnit.SECONDS);//1秒间隔 一次新连接
 
 		//发送消息
 		Runnable sendMessageRunnable = newSendMessageRunnable(sessionList);
-		scheduledService.scheduleAtFixedRate(sendMessageRunnable,0,1,TimeUnit.SECONDS);//1秒间隔 所有会话发送消息
+		scheduledService.scheduleAtFixedRate(sendMessageRunnable,0,1000,TimeUnit.MILLISECONDS);//1秒间隔 所有会话发送消息
 
 		scheduledService.scheduleAtFixedRate(()->{
 			//每次5 秒打印一次详情
 			logger.info("  连接数：" + connectCount+ "  成功数：" + successCount+ "  失败数：" + errorCount);
-		},5,5,TimeUnit.SECONDS);
+		},5,5,TimeUnit.MILLISECONDS);
 	}
 
 	/**

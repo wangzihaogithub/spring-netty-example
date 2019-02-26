@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 
 /**
- * 房间Controller (提供调用)
- * @author 84215
+ * 我的房间Controller (供websocket客户端订阅或请求)
+ * @author wangzihao
  */
 @RestController
 public class MyRoomController {
     private Logger logger = LoggerFactory.getLogger(getClass());
-    //注册过的用户信息
+    //所有在线的用户
     @Autowired
     private SimpUserRegistry userRegistry;
-    //负责发送消息的工具类
+    //发送消息的工具类 (可以主动回复客户端)
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 

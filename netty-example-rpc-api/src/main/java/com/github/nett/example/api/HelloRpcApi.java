@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Map;
 
 /**
- * @author 84215
+ * @author wangzihao
  */
 @RequestMapping("/rpc/helloService")//这里的值要与 生产者(服务端)对应
 public interface HelloRpcApi {

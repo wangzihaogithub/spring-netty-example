@@ -1,32 +1,40 @@
 package com.github.netty.example.qps;
 
+import io.netty.handler.codec.mqtt.MqttQoS;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonObject;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.ext.web.client.WebClient;
-import io.vertx.ext.web.client.WebClientOptions;
+import io.vertx.mqtt.MqttClient;
+import io.vertx.mqtt.MqttClientOptions;
 
 import java.math.BigDecimal;
-import java.util.concurrent.CountDownLatch;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * running 测试 (一直运行)  注: servlet服务端口=10002,rpc-consumer服务端口=10000,rpc-provider服务端口=10001
+ * running 测试 (一直运行)  注: mqtt服务端口=10004
  *
  * 用于测试qps性能, 直接右键运行即可
- * Http协议
+ * MQTT协议
  * @author acer01
  * 2018/8/12/012
  */
-public class QpsRunningHttpTest {
+public class RunningMQTTTest {
 
     private static final int PORT = 10004;
     private static final String HOST = "localhost";
-    private static final String URI = "/hello?id=1&name=abc";
-    private static final JsonObject BODY = new JsonObject("{\"body1\":\"QpsRunningTest-我是post内容\"}");
+    private static final String TOPIC =
+            "#";
+//            "/hello?id=1&name=abc";
 
     private int queryCount = 10000;//===========一次qps任务的调用次数=================
     private int waitTime = 10;//===========一次qps任务的等待时间(秒)=================
@@ -39,50 +47,64 @@ public class QpsRunningHttpTest {
     private AtomicLong totalSleepTime = new AtomicLong();
 
     //==============Vertx客户端===============
-    private WebClient client = WebClient.create(Vertx.vertx(),new WebClientOptions()
-            .setTcpKeepAlive(false)
-            //是否保持连接
-            .setKeepAlive(true));
+    private Vertx vertx = Vertx.vertx();
+    private Verticle verticle = new AbstractVerticle(){
+        @Override
+        public void start() {
+            MqttClient client = MqttClient.create(vertx, new MqttClientOptions()
+                    .setHost(HOST)
+                    .setPort(PORT)
+                    .setWillTopic("willTopic")
+                    .setWillMessage("hello")
+                    .setWillFlag(true)
+                    .setUsername("admin")
+                    .setPassword("123456")
+                    .setMaxMessageSize(8192));
 
-    public static void main(String[] args) {
-        QpsRunningHttpTest test = new QpsRunningHttpTest();
-        new PrintThread(test).start();
+            client.publishHandler(response -> {
+                String message = new String(response.payload().getBytes(), Charset.forName("UTF-8"));
+                System.out.println(
+                        String.format("接收到消息: \"%s\" from topic \"%s\"",
+                                message, response.topicName()));
+            });
 
-        try {
-            while (true) {
-                test.doQuery(PORT,HOST, URI);
-            }
-        }catch (Throwable t){
-            t.printStackTrace();
-        }
-    }
+            client.connect(s -> {
+                Map<String,Integer> topics = new HashMap<>(2);
+                topics.put(TOPIC, MqttQoS.AT_LEAST_ONCE.value());
+                // subscribe to all subtopics
+                client.subscribe(topics, resp -> {
+                    int result = resp.result();
+                    System.out.println("subscribe"+resp);
+                });
 
-    private void doQuery(int port, String host, String uri) throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(queryCount);
-        for(int i=0 ;i< queryCount; i++) {
-            client.get(port, host, uri).sendJsonObject(BODY, asyncResult -> {
-                if(asyncResult.succeeded()){
-                    successCount.incrementAndGet();
-                }else {
-                    errorCount.incrementAndGet();
-                    System.out.println("error = " + asyncResult.cause());
-                }
-                latch.countDown();
+                ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(1);
+                AtomicInteger count = new AtomicInteger();
+                scheduled.scheduleAtFixedRate(() ->
+                    client.publish("/hello",Buffer.buffer("发布数据" + count.incrementAndGet()) ,MqttQoS.EXACTLY_ONCE,true,true, asyncResult -> {
+                        if(asyncResult.succeeded()){
+    //                        System.out.println("publish"+asyncResult);
+                        }
+                    }
+                ),0,15, TimeUnit.MILLISECONDS);
             });
         }
+    };
 
-        latch.await(waitTime, TimeUnit.SECONDS);
-        Thread.sleep(onceSleep);
-        totalSleepTime.addAndGet(onceSleep);
+
+    public static void main(String[] args) {
+        RunningMQTTTest test = new RunningMQTTTest();
+
+        test.vertx.deployVerticle(test.verticle);
+        new PrintThread(test).start();
     }
 
     static class PrintThread extends Thread{
-        private final QpsRunningHttpTest test;
+        private final RunningMQTTTest test;
         private AtomicInteger printCount = new AtomicInteger();
         private long beginTime = System.currentTimeMillis();
         static final Logger logger = LoggerFactory.getLogger(PrintThread.class);
 
-        PrintThread(QpsRunningHttpTest test) {
+        PrintThread(RunningMQTTTest test) {
             super("QpsPrintThread");
             this.test = test;
         }
@@ -94,7 +116,7 @@ public class QpsRunningHttpTest {
                     sleep(reportPrintTime * 1000);
 //                    synchronized (test) {
                     long totalTime = System.currentTimeMillis() - beginTime - test.totalSleepTime.get();
-                    printQps(test.successCount.get(), test.errorCount.get(), totalTime);
+//                    printQps(test.successCount.get(), test.errorCount.get(), totalTime);
 //                    }
                 }catch (Throwable t){
                     t.printStackTrace();
@@ -121,6 +143,6 @@ public class QpsRunningHttpTest {
     }
 
 
-    static final Logger logger = LoggerFactory.getLogger(QpsRunningHttpTest.class);
+    static final Logger logger = LoggerFactory.getLogger(RunningMQTTTest.class);
 
 }

@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * Websocket配置
- * @author 84215
+ * @author wangzihao
  */
 @Configuration
 @EnableWebSocketMessageBroker

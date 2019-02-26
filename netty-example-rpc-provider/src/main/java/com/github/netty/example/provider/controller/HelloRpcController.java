@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author 84215
+ * @author wangzihao
  */
 @Protocol.RpcService//启用服务端的RPC
 @RequestMapping("/rpc/helloController")
