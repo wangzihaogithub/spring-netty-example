@@ -18,11 +18,13 @@
 	</properties>
 
 	<dependencies>
+		<!--API jar包依赖-->
 		<dependency>
 			<groupId>com.github.wangzihaogithub</groupId>
 			<artifactId>netty-example-rpc-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.github.wangzihaogithub</groupId>
 			<artifactId>spring-boot-protocol</artifactId>
@@ -30,14 +32,6 @@
 			<version>2.0.0</version>
 		</dependency>
 
-
-		<!-- 测试http用的,用作客户端-->
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-web-client</artifactId>
-			<version>3.5.0.Beta1</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
