@@ -22,7 +22,6 @@ import java.util.concurrent.atomic.AtomicLong;
  * 2018/8/12/012
  */
 public class RunningHttpTest {
-
     private static final int PORT = 10002;
     private static final String HOST = "localhost";
     private static final String URI = "/hello?id=1&name=abc";

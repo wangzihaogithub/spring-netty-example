@@ -27,8 +27,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class WebsocketTest {
 
-	private static Logger logger = LoggerFactory.getLogger(WebsocketTest.class);
-
 	public static void main(String[] args){
 		ScheduledExecutorService scheduledService = Executors.newScheduledThreadPool(3);
 		//发起连接的次数
@@ -83,6 +81,7 @@ public class WebsocketTest {
 		};
 	}
 
+	private static Logger logger = LoggerFactory.getLogger(WebsocketTest.class);
 	private static ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
 	private static MappingJackson2MessageConverter messageConverter = new MappingJackson2MessageConverter();
 	private static WebSocketStompClient client = new WebSocketStompClient(new SockJsClient(Arrays.asList(new WebSocketTransport(new StandardWebSocketClient()))));

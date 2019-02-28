@@ -21,7 +21,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  *  2018/8/12/012
  */
 public class OnceHttpTest {
-
     private static final int PORT = 10002;
     private static final String HOST = "localhost";
     private static final String URI = "/hello?id=1&name=abc";

@@ -20,12 +20,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 客户端测试 ( Websocket服务端口 : 10003)
- * 从Http协议协商至STOMP协议
+ * 从Http协议协商至Websocket STOMP协议
  * @author wangzihao
  */
 public class WebsocketTest {
-
-	private static Logger logger = LoggerFactory.getLogger(WebsocketTest.class);
 
 	public static void main(String[] args){
 		ScheduledExecutorService scheduledService = Executors.newScheduledThreadPool(3);
@@ -81,6 +79,7 @@ public class WebsocketTest {
 		};
 	}
 
+	private static Logger logger = LoggerFactory.getLogger(WebsocketTest.class);
 	private static ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
 	private static MappingJackson2MessageConverter messageConverter = new MappingJackson2MessageConverter();
 	private static WebSocketStompClient client = new WebSocketStompClient(new SockJsClient(Arrays.asList(new WebSocketTransport(new StandardWebSocketClient()))));
