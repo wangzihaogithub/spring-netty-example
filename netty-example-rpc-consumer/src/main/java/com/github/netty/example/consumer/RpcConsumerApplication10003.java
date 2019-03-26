@@ -17,7 +17,7 @@ import java.net.InetSocketAddress;
 //@EnableNettyServletEmbedded//切换容器的注解, 可选不切换, 继续用tomcat
 @EnableNettyRpcClients//这里开启自动注入RPC服务功能
 @SpringBootApplication
-public class RpcConsumerApplication10000 {
+public class RpcConsumerApplication10003 {
 
     /**
      * 寻找地址, 需要用户自行根据需求实现
@@ -33,7 +33,7 @@ public class RpcConsumerApplication10000 {
     }
 
     public static void main(String[] args) {
-		SpringApplication.run(RpcConsumerApplication10000.class, args);
+		SpringApplication.run(RpcConsumerApplication10003.class, args);
 	}
 
 }

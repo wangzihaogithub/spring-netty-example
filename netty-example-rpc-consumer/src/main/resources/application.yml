@@ -1,2 +1,4 @@
 server:
-  port: 10000
+  port: 10003
+#  netty:
+#    max-connections: 1
