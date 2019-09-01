@@ -15,9 +15,10 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * running 测试 (一直运行)  注: servlet服务端口=10002,rpc-consumer服务端口=10000,rpc-provider服务端口=10001
- *
+ * <p>
  * 用于测试qps性能, 直接右键运行即可
  * Http协议
+ *
  * @author acer01
  * 2018/8/12/012
  */
@@ -38,7 +39,7 @@ public class RunningHttpTest {
     private AtomicLong totalSleepTime = new AtomicLong();
 
     //==============Vertx客户端===============
-    private WebClient client = WebClient.create(Vertx.vertx(),new WebClientOptions()
+    private WebClient client = WebClient.create(Vertx.vertx(), new WebClientOptions()
             .setTcpKeepAlive(false)
             //是否保持连接
             .setKeepAlive(true));
@@ -49,20 +50,20 @@ public class RunningHttpTest {
 
         try {
             while (true) {
-                test.doQuery(PORT,HOST, URI);
+                test.doQuery(PORT, HOST, URI);
             }
-        }catch (Throwable t){
+        } catch (Throwable t) {
             t.printStackTrace();
         }
     }
 
     private void doQuery(int port, String host, String uri) throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(queryCount);
-        for(int i=0 ;i< queryCount; i++) {
+        for (int i = 0; i < queryCount; i++) {
             client.get(port, host, uri).sendJsonObject(BODY, asyncResult -> {
-                if(asyncResult.succeeded()){
+                if (asyncResult.succeeded()) {
                     successCount.incrementAndGet();
-                }else {
+                } else {
                     errorCount.incrementAndGet();
                     System.out.println("error = " + asyncResult.cause());
                 }
@@ -75,7 +76,7 @@ public class RunningHttpTest {
         totalSleepTime.addAndGet(onceSleep);
     }
 
-    static class PrintThread extends Thread{
+    static class PrintThread extends Thread {
         private final RunningHttpTest test;
         private AtomicInteger printCount = new AtomicInteger();
         private long beginTime = System.currentTimeMillis();
@@ -95,16 +96,16 @@ public class RunningHttpTest {
                     long totalTime = System.currentTimeMillis() - beginTime - test.totalSleepTime.get();
                     printQps(test.successCount.get(), test.errorCount.get(), totalTime);
 //                    }
-                }catch (Throwable t){
+                } catch (Throwable t) {
                     t.printStackTrace();
                 }
             }
         }
 
-        private void printQps(int successCount, int errorCount, long totalTime){
-            if(successCount == 0){
+        private void printQps(int successCount, int errorCount, long totalTime) {
+            if (successCount == 0) {
                 logger.info("无成功调用");
-            }else {
+            } else {
                 logger.info(
                         "第(" + printCount.incrementAndGet() + ")次统计, " +
                                 "时间 = " + totalTime + "毫秒[" + (totalTime / 60000) + "分" + ((totalTime % 60000) / 1000) + "秒], " +

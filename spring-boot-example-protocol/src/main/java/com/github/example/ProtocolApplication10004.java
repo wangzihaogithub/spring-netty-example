@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * Spring动态协议扩展 端口号:10004
- *  适用于多协议开发的场景
+ * 适用于多协议开发的场景
+ *
  * @author wangzihao
  */
 @EnableNettyServletEmbedded//这里需要切换为netty容器
@@ -19,23 +20,25 @@ public class ProtocolApplication10004 {
 
     /**
      * 添加私有协议
+     *
      * @return
      */
     @Bean
-    public MyProtocolsRegister myProtocolsRegister(){
+    public MyProtocolsRegister myProtocolsRegister() {
         return new MyProtocolsRegister();
     }
 
     /**
      * 添加mqtt协议
+     *
      * @return
      */
     @Bean
-    public ProtocolsRegister mqttProtocolsRegister(){
+    public ProtocolsRegister mqttProtocolsRegister() {
         return new MqttProtocolsRegister();
     }
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProtocolApplication10004.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ProtocolApplication10004.class, args);
+    }
 }

@@ -23,9 +23,10 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * running 测试 (一直运行)  注: mqtt服务端口=10004
- *
+ * <p>
  * 用于测试qps性能, 直接右键运行即可
  * MQTT协议
+ *
  * @author acer01
  * 2018/8/12/012
  */
@@ -47,7 +48,7 @@ public class RunningMQTTTest {
 
     public static void main(String[] args) {
         ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(2);
-        Verticle verticle = new AbstractVerticle(){
+        Verticle verticle = new AbstractVerticle() {
             @Override
             public void start() {
                 MqttClient client = MqttClient.create(vertx, new MqttClientOptions()
@@ -62,45 +63,45 @@ public class RunningMQTTTest {
 
                 client.publishHandler(response -> {
                     String message = new String(response.payload().getBytes(), Charset.forName("UTF-8"));
-                    logger.info("接收到消息: {} from topic {}",message,response.topicName());
+                    logger.info("接收到消息: {} from topic {}", message, response.topicName());
                 });
 
                 client.connect(s -> {
-                    if(!s.succeeded()){
+                    if (!s.succeeded()) {
                         vertx.close();
                         scheduled.shutdown();
                         return;
                     }
 
-                    Map<String,Integer> topics = new HashMap<>(2);
+                    Map<String, Integer> topics = new HashMap<>(2);
                     topics.put(TOPIC, MqttQoS.AT_LEAST_ONCE.value());
                     // subscribe to all subtopics
                     client.subscribe(topics, resp -> {
                         int result = resp.result();
-                        logger.info("subscribe {}",resp);
+                        logger.info("subscribe {}", resp);
                     });
 
 
                     AtomicInteger count = new AtomicInteger();
                     scheduled.scheduleAtFixedRate(() ->
                             client.publish("/hello",
-                                    Buffer.buffer("发布数据" + count.incrementAndGet()) ,MqttQoS.EXACTLY_ONCE,true,true,
+                                    Buffer.buffer("发布数据" + count.incrementAndGet()), MqttQoS.EXACTLY_ONCE, true, true,
                                     asyncResult -> {
-                                        if(asyncResult.succeeded()){
+                                        if (asyncResult.succeeded()) {
 //                            logger.info("publish {}",asyncResult);
                                         }
                                     }
-                            ),0,15, TimeUnit.MILLISECONDS);
+                            ), 0, 15, TimeUnit.MILLISECONDS);
                 });
             }
         };
 
         Vertx.vertx().deployVerticle(verticle);
-        scheduled.scheduleAtFixedRate(new PrintInfoRunnable(),0,reportPrintTime, TimeUnit.SECONDS);
+        scheduled.scheduleAtFixedRate(new PrintInfoRunnable(), 0, reportPrintTime, TimeUnit.SECONDS);
     }
 
 
-    static class PrintInfoRunnable implements Runnable{
+    static class PrintInfoRunnable implements Runnable {
         private AtomicInteger printCount = new AtomicInteger();
         private long beginTime = System.currentTimeMillis();
 
@@ -111,14 +112,14 @@ public class RunningMQTTTest {
             int errorCount = RunningMQTTTest.errorCount.get();
 
             StringJoiner joiner = new StringJoiner(",");
-            joiner.add("第(" + printCount.incrementAndGet() + ")次统计 " );
-            joiner.add("时间 = " + totalTime + "毫秒[" + (totalTime / 60000) + "分" + ((totalTime % 60000) / 1000) + "秒] " );
-            joiner.add("成功 = " + successCount  );
-            joiner.add("失败 = " + errorCount  );
+            joiner.add("第(" + printCount.incrementAndGet() + ")次统计 ");
+            joiner.add("时间 = " + totalTime + "毫秒[" + (totalTime / 60000) + "分" + ((totalTime % 60000) / 1000) + "秒] ");
+            joiner.add("成功 = " + successCount);
+            joiner.add("失败 = " + errorCount);
             joiner.add("平均响应 = " + new BigDecimal((double) totalTime / (double) successCount)
-                    .setScale(2, BigDecimal.ROUND_HALF_DOWN).stripTrailingZeros().toPlainString() + "ms, " );
+                    .setScale(2, BigDecimal.ROUND_HALF_DOWN).stripTrailingZeros().toPlainString() + "ms, ");
             joiner.add("qps = " + new BigDecimal((double) successCount / (double) totalTime * 1000)
-                    .setScale(2, BigDecimal.ROUND_HALF_DOWN).stripTrailingZeros().toPlainString() );
+                    .setScale(2, BigDecimal.ROUND_HALF_DOWN).stripTrailingZeros().toPlainString());
 
             logger.info(joiner.toString());
         }

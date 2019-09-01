@@ -12,13 +12,14 @@ import org.slf4j.LoggerFactory;
 /**
  * 2019/2/28/028.
  * 私有协议注册
+ *
  * @author wangzihao
  */
 public class MyProtocolsRegister extends AbstractProtocolsRegister {
     //协议头
     public static final byte[] PROTOCOL_HEADER = {
-            'M','Y',
-            'H','E','A','D','E','R'
+            'M', 'Y',
+            'H', 'E', 'A', 'D', 'E', 'R'
     };
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -29,16 +30,17 @@ public class MyProtocolsRegister extends AbstractProtocolsRegister {
 
     /**
      * 第一个消息决定,该连接以后传输的协议
+     *
      * @param msg 消息
      * @return 是否支持此消息类型
      */
     @Override
     public boolean canSupport(ByteBuf msg) {
-        if(msg.readableBytes() < PROTOCOL_HEADER.length){
+        if (msg.readableBytes() < PROTOCOL_HEADER.length) {
             return false;
         }
-        for(int i=0; i<PROTOCOL_HEADER.length; i++){
-            if(msg.getByte(i) != PROTOCOL_HEADER[i]){
+        for (int i = 0; i < PROTOCOL_HEADER.length; i++) {
+            if (msg.getByte(i) != PROTOCOL_HEADER[i]) {
                 return false;
             }
         }

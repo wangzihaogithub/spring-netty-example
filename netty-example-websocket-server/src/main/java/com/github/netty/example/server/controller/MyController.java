@@ -15,6 +15,7 @@ import java.security.Principal;
 
 /**
  * 我的房间Controller (供websocket客户端订阅或请求)
+ *
  * @author wangzihao
  */
 @RestController
@@ -29,25 +30,27 @@ public class MyController {
 
     /**
      * 订阅房间
-     * @param message 消息
+     *
+     * @param message   消息
      * @param principal 订阅人的用户身份（当前登录人的信息）
-     * @param username 被订阅人的账号
-     * @param roomName 被订阅的房间名
+     * @param username  被订阅人的账号
+     * @param roomName  被订阅的房间名
      */
     @SubscribeMapping("/user/room/{username}/{roomName}")
-    public void subscribeMyRoom(Message message,Principal principal, @DestinationVariable("username") String username,@DestinationVariable("roomName")String roomName) {
-        logger.info("["+principal.getName() + "]订阅了[" + username + "]的 [" + roomName + "] 房间");
+    public void subscribeMyRoom(Message message, Principal principal, @DestinationVariable("username") String username, @DestinationVariable("roomName") String roomName) {
+        logger.info("[" + principal.getName() + "]订阅了[" + username + "]的 [" + roomName + "] 房间");
     }
 
     /**
      * 接收消息
-     * @param message 客户端的数据
+     *
+     * @param message   客户端的数据
      * @param principal 当前登录人的信息
      */
     @MessageMapping("/receiveMessage")
     public void receiveMessage(Message message, Principal principal) {
         String payload = new String((byte[]) message.getPayload());
-        logger.info( "已收到["+principal.getName()+"]的消息["+ payload+"] 当前在线人数["+userRegistry.getUserCount()+"]");
+        logger.info("已收到[" + principal.getName() + "]的消息[" + payload + "] 当前在线人数[" + userRegistry.getUserCount() + "]");
     }
 
 }

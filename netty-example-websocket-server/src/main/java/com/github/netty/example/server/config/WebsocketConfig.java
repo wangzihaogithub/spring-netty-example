@@ -18,6 +18,7 @@ import java.util.Map;
 
 /**
  * Websocket配置
+ *
  * @author wangzihao
  */
 @Configuration
@@ -27,9 +28,10 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     /**
      * 容器策略, 这里选用netty
+     *
      * @return 容器策略
      */
-    public RequestUpgradeStrategy requestUpgradeStrategy(){
+    public RequestUpgradeStrategy requestUpgradeStrategy() {
 //        return new JettyRequestUpgradeStrategy();
 //        return new TomcatRequestUpgradeStrategy();
         return new NettyRequestUpgradeStrategy();
@@ -39,7 +41,7 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         StompWebSocketEndpointRegistration endpoint = registry.addEndpoint("/my-websocket");//添加一个/my-websocket端点，客户端就可以通过这个端点来进行连接；
 
-        endpoint.setHandshakeHandler(new DefaultHandshakeHandler(requestUpgradeStrategy()){
+        endpoint.setHandshakeHandler(new DefaultHandshakeHandler(requestUpgradeStrategy()) {
             //这里获取首次握手的身份
             @Override
             protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
@@ -60,11 +62,12 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     /**
      * 负责管理用户信息
+     *
      * @return
      */
     @Bean
     @ConditionalOnMissingBean(SimpUserRegistry.class)
-    public SimpUserRegistry userRegistry(){
+    public SimpUserRegistry userRegistry() {
         return new DefaultSimpUserRegistry();
     }
 

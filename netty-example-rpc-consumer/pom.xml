@@ -18,20 +18,59 @@
 	</properties>
 
 	<dependencies>
-		<!--API jar包依赖-->
+		<!--开发者自己的API. jar包依赖-->
 		<dependency>
 			<groupId>com.github.wangzihaogithub</groupId>
 			<artifactId>netty-example-rpc-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
+		<!--本框架的多协议依赖-->
 		<dependency>
 			<groupId>com.github.wangzihaogithub</groupId>
 			<artifactId>spring-boot-protocol</artifactId>
 			<!--<version>1.2.0</version>-->
-			<version>2.0.0</version>
+			<version>2.0.3</version>
 		</dependency>
 
+		<!--springboot web依赖-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>2.1.2.RELEASE</version>
+		</dependency>
+
+		<!--spring cloud依赖-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter</artifactId>
+			<version>2.1.2.RELEASE</version>
+		</dependency>
+		<!--spring cloud 依赖 httpcomponents, 不加会启动不了 -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+
+		<!--nacos 注册中心依赖-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+			<version>0.2.1.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba.boot</groupId>
+			<artifactId>nacos-discovery-spring-boot-starter</artifactId>
+			<version>0.2.1</version>
+		</dependency>
+
+		<!--nacos 配置中心依赖-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+			<version>0.2.1.RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -39,6 +78,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>

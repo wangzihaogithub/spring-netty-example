@@ -14,6 +14,7 @@ public interface HelloRpcApi {
 
     /**
      * hello world
+     *
      * @param body
      * @param name
      * @param id

@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: service-provider
+  profiles:
+    active: test
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        endpoint: 127.0.0.1:8848
+        file-extension: yaml
+nacos:
+  server-addr: 127.0.0.1:8848

@@ -35,14 +35,14 @@ public class OnceHttpTest {
 
     //==============Vertx客户端===============
     private Vertx vertx = Vertx.vertx();
-    private WebClient client = WebClient.create(vertx,new WebClientOptions()
+    private WebClient client = WebClient.create(vertx, new WebClientOptions()
             .setTcpKeepAlive(false)
             //是否保持连接
             .setKeepAlive(true));
 
     public static void main(String[] args) throws InterruptedException {
         OnceHttpTest test = new OnceHttpTest();
-        test.doQuery(PORT,HOST, URI);
+        test.doQuery(PORT, HOST, URI);
 
         int successCount = test.successCount.get();
         int errorCount = test.errorCount.get();
@@ -51,9 +51,9 @@ public class OnceHttpTest {
         test.client.close();
         test.vertx.close();
 
-        if(successCount == 0){
+        if (successCount == 0) {
             logger.info("无成功调用");
-        }else {
+        } else {
             logger.info("时间 = " + totalTime + "毫秒, " +
                     "成功 = " + successCount + ", " +
                     "失败 = " + errorCount + ", " +
@@ -65,11 +65,11 @@ public class OnceHttpTest {
 
     private void doQuery(int port, String host, String uri) throws InterruptedException {
         long beginTime = System.currentTimeMillis();
-        for(int i=0; i< queryCount; i++) {
-            client.post(port, host, uri).sendJsonObject(BODY,asyncResult -> {
-                if(asyncResult.succeeded()){
+        for (int i = 0; i < queryCount; i++) {
+            client.post(port, host, uri).sendJsonObject(BODY, asyncResult -> {
+                if (asyncResult.succeeded()) {
                     successCount.incrementAndGet();
-                }else {
+                } else {
                     errorCount.incrementAndGet();
                     System.out.println("error = " + asyncResult.cause());
                 }

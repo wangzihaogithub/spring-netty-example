@@ -13,12 +13,12 @@ import java.util.Map;
 @Protocol.RpcService//启用服务端的RPC
 @RequestMapping("/rpc/helloController")
 @RestController
-public class HelloRpcController{
+public class HelloRpcController {
 
     @RequestMapping("/sayHello")
     public Map sayHello(String name, Integer id, String pwd) {
         Map map = new HashMap(1);
-        map.put("msg","hello rpc controller (" + name+ ","+id+","+pwd+") "+System.currentTimeMillis());
+        map.put("msg", "hello rpc controller (" + name + "," + id + "," + pwd + ") " + System.currentTimeMillis());
         return map;
     }
 

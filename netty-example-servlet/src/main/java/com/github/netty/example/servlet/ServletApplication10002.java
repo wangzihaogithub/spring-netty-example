@@ -18,8 +18,9 @@ import java.util.Map;
 
 /**
  * web服务器. 端口号:10002 （将tomcat换成了netty, 可以从request,response的实现看出来）
- *
+ * <p>
  * Netty-servlet 适用于数据量小(例: 2M左右), 并发高的场景
+ *
  * @author wangzihao  (示例)
  */
 @RestController
@@ -27,16 +28,16 @@ import java.util.Map;
 @SpringBootApplication
 public class ServletApplication10002 {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ServletApplication10002.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ServletApplication10002.class, args);
+    }
 
-	@RequestMapping("/hello")
-	public Object hello(@RequestParam Map query, @RequestBody(required = false) Map body,
-						HttpServletRequest request, HttpServletResponse response,
-						HttpSession session, Principal principal,
-						InputStream in, OutputStream out) {
-		return "hello-servlet query="+query +",body="+ body ;
-	}
+    @RequestMapping("/hello")
+    public Object hello(@RequestParam Map query, @RequestBody(required = false) Map body,
+                        HttpServletRequest request, HttpServletResponse response,
+                        HttpSession session, Principal principal,
+                        InputStream in, OutputStream out) {
+        return "hello-servlet query=" + query + ",body=" + body;
+    }
 
 }

@@ -6,9 +6,10 @@ import io.netty.channel.ChannelHandlerContext;
 /**
  * 2019/2/28/028.
  * 消息处理器
+ *
  * @author acer01
  */
-public class MyChannelHandler extends AbstractChannelHandler<String,String> {
+public class MyChannelHandler extends AbstractChannelHandler<String, String> {
 
     @Override
     protected void onMessageReceived(ChannelHandlerContext ctx, String msg) throws Exception {

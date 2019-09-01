@@ -1,4 +1,5 @@
 server:
-  port: 10003
-#  netty:
-#    max-connections: 1
+  port: 10000
+  netty:
+    enable-tcp-package-log: false
+    max-connections: 10000
