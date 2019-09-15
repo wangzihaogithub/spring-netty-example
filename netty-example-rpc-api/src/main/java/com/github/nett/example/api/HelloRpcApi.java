@@ -9,18 +9,17 @@ import java.util.Map;
 /**
  * @author wangzihao
  */
-@RequestMapping("/rpc/helloService")//这里的值要与 生产者(服务端)对应
+@RequestMapping("/rpc/provider/service")//这里的值要与 生产者(服务端)对应
 public interface HelloRpcApi {
 
     /**
      * hello world
-     *
      * @param body
      * @param name
      * @param id
      * @param pwd
      * @return
      */
-    Map sayHello(@RequestBody Map body, @RequestParam("name") String name, @RequestParam("id") Integer id, @RequestParam("pwd") String pwd);//方法名称与 生产者(服务端)对应
+    Map helloService(@RequestBody Map body, @RequestParam("name") String name, @RequestParam("id") Integer id, @RequestParam("pwd") String pwd);//方法名称与 生产者(服务端)对应
 
 }

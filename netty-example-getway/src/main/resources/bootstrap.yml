@@ -1,6 +1,6 @@
 spring:
   application:
-    name: rpc-provider-service
+    name: getway-service
   profiles:
     active: test
   cloud:
@@ -10,5 +10,6 @@ spring:
       config:
         server-addr: 127.0.0.1:8848
         file-extension: yaml
+
 nacos:
   server-addr: 127.0.0.1:8848

@@ -20,6 +20,7 @@ import java.util.Map;
  */
 @RestController
 @RefreshScope
+@RequestMapping("/rpc/consumer")
 public class MyController {
     @Resource
     private HelloRpcService helloRpcService;
@@ -28,14 +29,13 @@ public class MyController {
     @Value("${user.name:}")
     private String configCenterTest;
 
-    @RequestMapping("/hello")
-    public Object hello(@RequestParam Map query, @RequestBody(required = false) Map body,
+    @RequestMapping("/callProvider")
+    public Object callProvider(@RequestParam Map query, @RequestBody(required = false) Map body,
                         HttpServletRequest request, HttpServletResponse response) {
         String name = (String) query.get("name");
-
         Map map = new HashMap();
-        map.put("1", helloRpcService.sayHello(query, name, 1, configCenterTest));
-        map.put("2", helloRpcController.sayHello(name, 1, configCenterTest));
+        map.put("call-service", helloRpcService.helloService(query, name, 1, configCenterTest));
+        map.put("call-controller", helloRpcController.helloController(name, 1, configCenterTest));
         return map;
     }
 }

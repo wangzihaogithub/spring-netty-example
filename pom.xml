@@ -13,6 +13,7 @@
     <modules>
         <module>netty-example-qps</module>
         <module>netty-example-rpc-api</module>
+        <module>netty-example-getway</module>
         <module>netty-example-rpc-consumer</module>
         <module>netty-example-rpc-provider</module>
         <module>netty-example-servlet</module>

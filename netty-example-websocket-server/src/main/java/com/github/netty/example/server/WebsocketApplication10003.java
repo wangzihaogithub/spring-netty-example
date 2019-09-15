@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WebsocketApplication10003 {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WebsocketApplication10003.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WebsocketApplication10003.class, args);
+    }
 }
