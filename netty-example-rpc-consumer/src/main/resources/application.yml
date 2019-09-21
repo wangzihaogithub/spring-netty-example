@@ -3,3 +3,6 @@ server:
   netty:
     enable-tcp-package-log: false
     max-connections: 10000
+logging:
+  level:
+    com.github.netty: debug
