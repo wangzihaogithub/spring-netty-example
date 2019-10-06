@@ -3,6 +3,13 @@ server:
   netty:
     enable-tcp-package-log: true
     max-connections: 10000
+  compression:
+    enabled: false
+    min-response-size: 1B
 logging:
   level:
     com.github.netty: debug
+    org:
+      apache:
+        tomcat: debug
+        coyote: debug

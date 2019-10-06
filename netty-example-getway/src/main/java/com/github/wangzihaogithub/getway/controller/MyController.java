@@ -4,7 +4,7 @@ import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
-import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ClientHttpResponse;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,23 +36,19 @@ public class MyController {
     @NacosInjected
     private NamingService namingService;
     @Autowired
-    private ObjectProvider<WebClient.Builder> webClientBuilderProvider;
+    private ObjectFactory<WebClient.Builder> webClientBuilderFactory;
 
     @RequestMapping("/rpc/provider/**")
-    public Mono<ResponseEntity<Flux<DataBuffer>>> rpc(ServerWebExchange serverWebExchange) throws NacosException {
+    public Mono<ResponseEntity<Flux<DataBuffer>>> rpcProvider(ServerWebExchange exchange) throws NacosException {
         Instance instance = namingService.selectOneHealthyInstance("rpc-provider-service");
-        ServerHttpRequest request = serverWebExchange.getRequest();
-
-        Mono<ResponseEntity<Flux<DataBuffer>>> asyncResponse = asyncRequest(request, instance);
+        Mono<ResponseEntity<Flux<DataBuffer>>> asyncResponse = asyncRequest(exchange.getRequest(), instance);
         return asyncResponse;
     }
 
     @RequestMapping("/rpc/consumer/**")
-    public Mono<ResponseEntity<Flux<DataBuffer>>> rpcConsumer(ServerWebExchange serverWebExchange) throws NacosException {
+    public Mono<ResponseEntity<Flux<DataBuffer>>> rpcConsumer(ServerWebExchange exchange) throws NacosException {
         Instance instance = namingService.selectOneHealthyInstance("rpc-consumer-service");
-        ServerHttpRequest request = serverWebExchange.getRequest();
-
-        Mono<ResponseEntity<Flux<DataBuffer>>> asyncResponse = asyncRequest(request, instance);
+        Mono<ResponseEntity<Flux<DataBuffer>>> asyncResponse = asyncRequest(exchange.getRequest(), instance);
         return asyncResponse;
     }
 
@@ -66,7 +61,7 @@ public class MyController {
 
         String url = rawProtocol + instance.getIp() + ":" + instance.getPort() +
                 rawUri.getRawPath() + "?" + rawUri.getRawQuery();
-        WebClient.Builder webClientBuilder = webClientBuilderProvider.getObject()
+        WebClient.Builder webClientBuilder = webClientBuilderFactory.getObject()
                 .baseUrl(url);
 
         Mono<ClientResponse> exchangeMono = webClientBuilder.build()

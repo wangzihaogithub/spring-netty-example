@@ -1,5 +1,12 @@
 server:
   port: 10002
   netty:
-    enable-tcp-package-log: false
+    enable-tcp-package-log: true
     max-connections: 10000
+logging:
+  level:
+    com.github.netty: debug
+    org:
+      apache:
+        tomcat: debug
+        coyote: debug
