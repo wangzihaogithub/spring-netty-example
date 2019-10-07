@@ -1,6 +1,6 @@
 package com.github.netty.example.server;
 
-import com.github.netty.springboot.EnableNettyServletEmbedded;
+import com.github.netty.springboot.EnableNettyEmbedded;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Netty-websocket 适用于数据量小(例: 2M左右), 并发高的场景
  * @author wangzihao
  */
-@EnableNettyServletEmbedded//这里需要切换为netty容器
+@EnableNettyEmbedded//这里需要切换为netty容器
 @SpringBootApplication
 public class WebsocketApplication10003 {
 

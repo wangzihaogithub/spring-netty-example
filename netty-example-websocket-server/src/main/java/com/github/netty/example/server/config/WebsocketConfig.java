@@ -1,6 +1,7 @@
 package com.github.netty.example.server.config;
 
-import com.github.netty.protocol.servlet.websocket.NettyRequestUpgradeStrategy;
+//import com.github.netty.protocol.servlet.websocket.NettyRequestUpgradeStrategy;
+import com.github.netty.springboot.server.NettyRequestUpgradeStrategy;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
