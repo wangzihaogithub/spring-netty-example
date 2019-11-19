@@ -1,6 +1,6 @@
 package com.github.netty.example.servlet;
 
-import com.github.netty.springboot.EnableNettyServletEmbedded;
+import com.github.netty.springboot.EnableNettyEmbedded;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +24,7 @@ import java.util.Map;
  * @author wangzihao  (示例)
  */
 @RestController
-@EnableNettyServletEmbedded//切换容器的注解
+@EnableNettyEmbedded//切换容器的注解
 @SpringBootApplication
 public class ServletApplication10002 {
 

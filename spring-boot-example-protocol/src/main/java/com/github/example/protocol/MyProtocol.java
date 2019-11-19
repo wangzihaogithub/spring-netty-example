@@ -1,6 +1,6 @@
 package com.github.example.protocol;
 
-import com.github.netty.core.AbstractProtocolsRegister;
+import com.github.netty.core.AbstractProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author wangzihao
  */
-public class MyProtocolsRegister extends AbstractProtocolsRegister {
+public class MyProtocol extends AbstractProtocol {
     //协议头
     public static final byte[] PROTOCOL_HEADER = {
             'M', 'Y',
@@ -48,7 +48,7 @@ public class MyProtocolsRegister extends AbstractProtocolsRegister {
     }
 
     @Override
-    public void registerTo(Channel channel) throws Exception {
+    public void addPipeline(Channel channel) throws Exception {
         channel.pipeline().addLast(new LineBasedFrameDecoder(1024));
         channel.pipeline().addLast(new StringDecoder());
         channel.pipeline().addLast(new StringEncoder());
@@ -56,7 +56,7 @@ public class MyProtocolsRegister extends AbstractProtocolsRegister {
     }
 
     @Override
-    public int order() {
+    public int getOrder() {
         return 0;
     }
 

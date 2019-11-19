@@ -1,9 +1,8 @@
 package com.github.example;
 
-import com.github.example.protocol.MyProtocolsRegister;
-import com.github.netty.core.ProtocolsRegister;
-import com.github.netty.protocol.MqttProtocolsRegister;
-import com.github.netty.springboot.EnableNettyServletEmbedded;
+import com.github.example.protocol.MyProtocol;
+import com.github.netty.protocol.MqttProtocol;
+import com.github.netty.springboot.EnableNettyEmbedded;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +13,7 @@ import org.springframework.context.annotation.Bean;
  *
  * @author wangzihao
  */
-@EnableNettyServletEmbedded//这里需要切换为netty容器
+@EnableNettyEmbedded//这里需要切换为netty容器
 @SpringBootApplication
 public class ProtocolApplication10004 {
 
@@ -24,8 +23,8 @@ public class ProtocolApplication10004 {
      * @return
      */
     @Bean
-    public MyProtocolsRegister myProtocolsRegister() {
-        return new MyProtocolsRegister();
+    public MyProtocol myProtocol() {
+        return new MyProtocol();
     }
 
     /**
@@ -34,8 +33,8 @@ public class ProtocolApplication10004 {
      * @return
      */
     @Bean
-    public ProtocolsRegister mqttProtocolsRegister() {
-        return new MqttProtocolsRegister();
+    public MqttProtocol mqttProtocolsRegister() {
+        return new MqttProtocol();
     }
 
     public static void main(String[] args) {
