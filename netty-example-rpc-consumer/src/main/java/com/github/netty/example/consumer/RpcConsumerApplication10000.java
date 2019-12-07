@@ -45,7 +45,7 @@ public class RpcConsumerApplication10000 {
             try {
                 Instance instance = namingService.selectOneHealthyInstance(request.getServiceName());
                 inetSocketAddress = new InetSocketAddress(instance.getIp(), instance.getPort());
-            } catch (NacosException e) {
+            } catch (Exception e) {
                 inetSocketAddress = new InetSocketAddress("localhost",10001);
             }
             return inetSocketAddress;
