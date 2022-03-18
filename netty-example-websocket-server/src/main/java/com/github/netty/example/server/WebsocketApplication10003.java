@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * Websocket服务端 端口号:10003
  * Netty-websocket 适用于数据量小(例: 2M左右), 并发高的场景
+ * 需要用前端websocket协议框架接入 https://www.npmjs.com/package/@stomp/stompjs
+ *
  * @author wangzihao
  */
 @EnableNettyEmbedded//这里需要切换为netty容器
