@@ -25,7 +25,7 @@ import java.util.Map;
 @Configuration
 @EnableWebSocketMessageBroker
 @EnableWebSocket
-public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 
     /**
      * 容器策略, 这里选用netty
@@ -49,9 +49,10 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
                 String token = request.getHeaders().getFirst("access_token");
                 return () -> "账号-" + token;
             }
-        });//这里放入一个握手的处理器,可以处理自定义握手期间的事情,重写父类方法即可 选用netty的协议升级策略
+        }).setAllowedOrigins("*");//这里放入一个握手的处理器,可以处理自定义握手期间的事情,重写父类方法即可 选用netty的协议升级策略
+        // setAllowedOrigins(*)设置跨域.
 
-        endpoint.setAllowedOrigins("*").withSockJS();//setAllowedOrigins(*)设置跨域.  withSockJS(*)添加SockJS支持
+        endpoint.withSockJS();// withSockJS(*)添加SockJS支持
     }
 
     @Override
