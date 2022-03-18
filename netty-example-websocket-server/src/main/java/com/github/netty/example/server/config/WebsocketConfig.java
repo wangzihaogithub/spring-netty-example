@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * Websocket配置
- *
+ * 需要用前端websocket协议框架接入 https://www.npmjs.com/package/@stomp/stompjs
  * @author wangzihao
  */
 @Configuration
