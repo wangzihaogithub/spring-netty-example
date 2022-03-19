@@ -17,6 +17,7 @@
         <module>netty-example-rpc-consumer</module>
         <module>netty-example-rpc-provider</module>
         <module>netty-example-servlet</module>
+        <module>netty-example-sse-server</module>
         <module>netty-example-websocket-server</module>
         <module>spring-boot-example-protocol</module>
     </modules>
