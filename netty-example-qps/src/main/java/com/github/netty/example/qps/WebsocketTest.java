@@ -42,7 +42,7 @@ public class WebsocketTest {
         List<StompSession.Subscription> subscriptionList = new CopyOnWriteArrayList<>();
 
         //连接并订阅
-        String url = "ws://localhost:10003/my-websocket?access_token=b90b0e77-63cf-4b05-8d8b-43ebefc71a6a";
+        String url = "ws://localhost:10003/my-websocket?access-token=b90b0e77-63cf-4b05-8d8b-43ebefc71a6a";
         Runnable connectRunnable = newConnectAndSubscribeRunnable(url, connectCount, successCount, errorCount, sessionList, subscriptionList);
         scheduledService.scheduleAtFixedRate(connectRunnable, 0, 1000, TimeUnit.MILLISECONDS);//1秒间隔 一次新连接
 
@@ -115,7 +115,7 @@ public class WebsocketTest {
                 try {
                     WebSocketHttpHeaders httpHeaders = new WebSocketHttpHeaders();
                     String accessToken = "user" + i;
-                    httpHeaders.add("access_token", accessToken);
+                    httpHeaders.add("access-token", accessToken);
                     //连接至url
                     StompSession session = client.connect(url, httpHeaders, new StompSessionHandlerAdapter() {
                         @Override

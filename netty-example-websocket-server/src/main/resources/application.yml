@@ -1,7 +1,7 @@
 server:
   port: 10003
   netty:
-    enable-tcp-package-log: true
+    enable-tcp-package-log: false
 logging:
   level:
-    com.github.netty: debug
+    com.github.netty: info
