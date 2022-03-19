@@ -13,4 +13,5 @@
 #### 包 netty-example-rpc-provider   RPC生产者示例代码
 
 #### 包 netty-example-servlet   Servlet容器示例代码
+#### 包 netty-example-sse-server   sse长连接示例代码
 #### 包 netty-example-websocket-server   长连接示例代码
