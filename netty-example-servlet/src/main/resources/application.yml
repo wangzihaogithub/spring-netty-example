@@ -1,12 +1,12 @@
 server:
   port: 10002
-  netty:
-    enable-tcp-package-log: false
-    max-connections: 10000
-    channel-handler: com.github.netty.example.servlet.MyDynamicProtocolChannelHandler
-    tcp-nodelay: true
-    server-io-threads: 20
-    resource-leak-detector-level: disabled
+  http2:
+    enabled: true
+#  netty:
+#    http-servlet:
+#      thread-pool:
+#        enable: true
+#      enable-h2c: true
 #logging:
 #  level:
 #    com.github.netty: debug

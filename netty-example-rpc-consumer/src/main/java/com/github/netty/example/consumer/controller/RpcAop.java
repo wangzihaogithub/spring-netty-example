@@ -11,7 +11,7 @@ import java.util.Map;
  * @author wangzihao 2019年12月7日16:33:43
  */
 @Component
-public class RpcAop implements RpcClientAop, RpcServerAop {
+public class RpcAop implements RpcServerAop {
     @Override
     public void onInitAfter(NRpcProtocol protocol) {
         System.out.println("rpcContext = " + protocol);
@@ -33,32 +33,12 @@ public class RpcAop implements RpcClientAop, RpcServerAop {
     }
 
     @Override
-    public void onInitAfter(RpcClient rpcClient) {
-        System.out.println("rpcContext = " + rpcClient);
-    }
-
-    @Override
-    public void onConnectAfter(RpcClient rpcClient) {
-        System.out.println("rpcContext = " + rpcClient);
-    }
-
-    @Override
-    public void onDisconnectAfter(RpcClient rpcClient) {
-        System.out.println("rpcContext = " + rpcClient);
-    }
-
-    @Override
-    public void onEncodeRequestBefore(RpcContext<RpcClient> rpcContext, Map<String, Object> params) {
-        System.out.println("rpcContext = " + rpcContext);
-    }
-
-    @Override
     public void onResponseAfter(RpcContext rpcContext) {
         System.out.println("rpcContext = " + rpcContext);
     }
 
     @Override
-    public void onStateUpdate(RpcContext<RpcClient> rpcContext) {
-        System.out.println("rpcContext = " + rpcContext);
+    public void onStateUpdate(RpcContext<RpcServerInstance> rpcContext, State formState, State toState) {
+        System.out.println("onStateUpdate = " + toState);
     }
 }

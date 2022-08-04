@@ -1,8 +1,7 @@
 package com.github.netty.example.provider.service;
 
 import com.github.nett.example.api.HelloRpcApi;
-import com.github.netty.annotation.Protocol;
-import org.springframework.stereotype.Service;
+import com.github.netty.annotation.NRpcService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +9,7 @@ import java.util.Map;
 /**
  * @author wangzihao
  */
-@Protocol.RpcService//启用服务端的RPC
-@Service
+@NRpcService//启用服务端的RPC
 public class HelloRpcServiceImpl implements HelloRpcApi {
 
     @Override

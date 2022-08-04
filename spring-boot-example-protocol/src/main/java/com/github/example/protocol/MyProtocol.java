@@ -1,5 +1,6 @@
 package com.github.example.protocol;
 
+import com.github.netty.core.AbstractNettyServer;
 import com.github.netty.core.AbstractProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -31,16 +32,16 @@ public class MyProtocol extends AbstractProtocol {
     /**
      * 第一个消息决定,该连接以后传输的协议
      *
-     * @param msg 消息
+     * @param clientFirstMsg 消息
      * @return 是否支持此消息类型
      */
     @Override
-    public boolean canSupport(ByteBuf msg) {
-        if (msg.readableBytes() < PROTOCOL_HEADER.length) {
+    public boolean canSupport(ByteBuf clientFirstMsg) {
+        if (clientFirstMsg.readableBytes() < PROTOCOL_HEADER.length) {
             return false;
         }
         for (int i = 0; i < PROTOCOL_HEADER.length; i++) {
-            if (msg.getByte(i) != PROTOCOL_HEADER[i]) {
+            if (clientFirstMsg.getByte(i) != PROTOCOL_HEADER[i]) {
                 return false;
             }
         }
@@ -48,7 +49,7 @@ public class MyProtocol extends AbstractProtocol {
     }
 
     @Override
-    public void addPipeline(Channel channel) throws Exception {
+    public void addPipeline(Channel channel, ByteBuf clientFirstMsg) throws Exception {
         channel.pipeline().addLast(new LineBasedFrameDecoder(1024));
         channel.pipeline().addLast(new StringDecoder());
         channel.pipeline().addLast(new StringEncoder());
@@ -61,12 +62,13 @@ public class MyProtocol extends AbstractProtocol {
     }
 
     @Override
-    public void onServerStart() throws Exception {
+    public <T extends AbstractNettyServer> void onServerStart(T server) throws Exception {
         logger.info("私有协议启动!");
     }
 
     @Override
-    public void onServerStop() throws Exception {
+    public <T extends AbstractNettyServer> void onServerStop(T server) throws Exception {
         logger.info("私有协议停止!");
     }
+
 }
