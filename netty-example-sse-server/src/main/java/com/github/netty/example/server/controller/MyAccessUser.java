@@ -1,15 +1,17 @@
 package com.github.netty.example.server.controller;
 
 import com.github.sseserver.AccessToken;
+import com.github.sseserver.TenantAccessUser;
 
 /**
  * 当前登录用户
  *
  * @author wangzihao
  */
-public class MyAccessUser implements com.github.sseserver.AccessUser, AccessToken {
+public class MyAccessUser implements com.github.sseserver.AccessUser, AccessToken, TenantAccessUser {
     private String accessToken;
-    private Integer id;
+    private String id;
+    private Integer tenantId;
 
     @Override
     public String getAccessToken() {
@@ -21,16 +23,25 @@ public class MyAccessUser implements com.github.sseserver.AccessUser, AccessToke
     }
 
     @Override
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
         return String.valueOf(id);
+    }
+
+    @Override
+    public Integer getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Integer tenantId) {
+        this.tenantId = tenantId;
     }
 }

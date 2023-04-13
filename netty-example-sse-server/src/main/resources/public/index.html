@@ -1,42 +1,80 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>My WebSocket</title>
 </head>
 
 <body>
 <input id="text" type="text"/>
-<button onclick="send()">Send</button>
-<button onclick="sseSocket.close">Close</button>
+<button onclick="sseSend()">Send</button>
+<button onclick="sseReConnect()">ReConnect</button>
+
+<button onclick="sseClose()">前端调用Close</button>
+<button onclick="sseBackendClose()">后端调用Close</button>
+<button onclick="sseClean()">Clean</button>
 <div id="message"></div>
 </body>
 
 <script type="text/javascript">
+    // 监听服务器消息推送
     function sseEventListener(url, eventListeners, query) {
-        return import(url).then(module => new module.default({url, eventListeners, query}))
+        return import(url + '?' + new URLSearchParams(query))
+            .then(module => new module.default({url, eventListeners, query}))
     }
 
-    var sseSocket = sseEventListener('/my-sse',
-        {
-            event1: (event) => {
-                setMessageInnerHTML(event.data)
-            }
+    const eventListeners = {
+        'server-push': (event) => {
+            setMessageInnerHTML(`server-push ${event.data}`)
         },
-        {
-            'access-token': '123'
-        });
-
-
-    setTimeout(() => {
-        sseSocket.close()
-    }, 30000)
+        'server-ack': function (event) {
+            setMessageInnerHTML(`server-ack ${event.data}`)
+        },
+        [`server-` + `aa`]: function (event) {
+            setMessageInnerHTML(`server-aa ${event.data}`)
+        },
+        'connect-finish': function (event) {
+            setMessageInnerHTML(`connect-finish ${event.data}`)
+        },
+        'connect-close': function (event) {
+            setMessageInnerHTML(`connect-close ${event.data}. whoTriggerClose=${event.whoTriggerClose}`)
+        },
+    }
+    const query = {
+        'access-token': '123'
+    }
+    sseEventListener('/my-sse', eventListeners, query).then(sseSocket => {
+        window.sseSocket = sseSocket
+    });
 
     //将消息显示在网页上
     function setMessageInnerHTML(innerHTML) {
-        document.getElementById('message').innerHTML += innerHTML + '<br/>';
+        document.getElementById('message').innerHTML += `ID:${sseSocket.connectionId}  ` + innerHTML + ` : <br/>`;
     }
 
-    function send() {
+    function sseBackendClose() {
+        var message = document.getElementById('text').value;
+        const path = 'close'
+        const body = {}
+        const query = {message}
+        const headers = {}
+        //发送消息
+        sseSocket.send(path, body, query, headers)
+    }
+
+    function sseClose() {
+        sseSocket.close()
+    }
+
+    function sseClean() {
+        document.getElementById('message').innerHTML = ''
+    }
+
+    function sseReConnect() {
+        sseSocket.connect()
+    }
+
+    function sseSend() {
         var message = document.getElementById('text').value;
         const path = 'send1'
         const body = {}
@@ -44,7 +82,6 @@
         const headers = {}
         //发送消息
         sseSocket.send(path, body, query, headers)
-
     }
 </script>
 </html>

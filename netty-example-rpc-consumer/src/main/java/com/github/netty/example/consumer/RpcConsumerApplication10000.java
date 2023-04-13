@@ -1,7 +1,7 @@
 package com.github.netty.example.consumer;
 
-import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.exception.NacosException;
+import com.alibaba.nacos.api.naming.NamingFactory;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.github.netty.springboot.EnableNettyEmbedded;
@@ -10,7 +10,6 @@ import com.github.netty.springboot.client.NettyRpcLoadBalanced;
 import com.github.netty.springboot.client.NettyRpcRequest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
@@ -24,7 +23,6 @@ import java.net.InetSocketAddress;
 @EnableNettyEmbedded//切换容器的注解, 可选不切换, 继续用tomcat
 @SpringBootApplication
 @EnableNettyRpcClients//这里开启自动注入RPC服务功能
-@EnableDiscoveryClient
 public class RpcConsumerApplication10000 {
 
     public static void main(String[] args) {
@@ -33,20 +31,34 @@ public class RpcConsumerApplication10000 {
 
     /**
      * 寻找地址, 需要用户自行根据需求实现 (这里用 nacos实现)
+     *
      * @author wangzihao
      */
     @Component
     public static class NacosRpcLoadBalanced implements NettyRpcLoadBalanced {
-        @NacosInjected
         private NamingService namingService;
+        private boolean namingServiceFail;
+
+        public synchronized NamingService getNamingService() throws NacosException {
+            if (namingService == null) {
+                namingService = NamingFactory.createNamingService("127.0.0.1:8848");
+            }
+            return namingService;
+        }
+
         @Override
         public InetSocketAddress chooseAddress(NettyRpcRequest request) {
             InetSocketAddress inetSocketAddress;
-            try {
-                Instance instance = namingService.selectOneHealthyInstance(request.getServiceName());
-                inetSocketAddress = new InetSocketAddress(instance.getIp(), instance.getPort());
-            } catch (Exception e) {
-                inetSocketAddress = new InetSocketAddress("localhost",10001);
+            if (namingServiceFail) {
+                inetSocketAddress = new InetSocketAddress("localhost", 10001);
+            } else {
+                try {
+                    Instance instance = getNamingService().selectOneHealthyInstance(request.getServiceName());
+                    inetSocketAddress = new InetSocketAddress(instance.getIp(), instance.getPort());
+                } catch (Exception e) {
+                    namingServiceFail = true;
+                    inetSocketAddress = new InetSocketAddress("localhost", 10001);
+                }
             }
             return inetSocketAddress;
         }
