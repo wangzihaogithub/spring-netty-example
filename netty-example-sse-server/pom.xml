@@ -21,7 +21,7 @@
         <dependency>
             <groupId>com.github.wangzihaogithub</groupId>
             <artifactId>sse-server</artifactId>
-            <version>1.2.5</version>
+            <version>1.2.6</version>
         </dependency>
 
         <!--springboot web依赖-->
